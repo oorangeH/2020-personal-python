@@ -2,6 +2,8 @@ import json
 import os
 import argparse
 
+python3 GHAnalysis.py <--init|-i> <path to data>
+
 class Data:
     def __init__(self, dict_address: int = None, reload: int = 0):
         if reload == 1:
@@ -14,6 +16,7 @@ class Data:
         self.__4Events4PerR = json.loads(x)
         x = open('3.json', 'r', encoding='utf-8').read()
         self.__4Events4PerPPerR = json.loads(x)
+
 
     def __init(self, dict_address: str):
         json_list = []
@@ -71,18 +74,22 @@ class Data:
             records.append(_d)
         return records
 
+    python3 GHAnalysis.py <-u|--user> user <-e|--event> <PushEvent|IssueCommentEvent|IssuesEvent|PullRequestEvent>
     def getEventsUsers(self, username: str, event: str) -> int:
         if not self.__4Events4PerP.get(username,0):
             return 0
         else:
             return self.__4Events4PerP[username].get(event,0)
 
+        
+    python3 GHAnalysis.py <-r|--repo> user/repo <-e|--event> <PushEvent|IssueCommentEvent|IssuesEvent|PullRequestEvent>
     def getEventsRepos(self, reponame: str, event: str) -> int:
         if not self.__4Events4PerR.get(reponame,0):
             return 0
         else:
             return self.__4Events4PerR[reponame].get(event,0)
 
+    python3 GHAnalysis.py <-u|--user> user <-r|--repo> user/repo <-e|--event> <PushEvent|IssueCommentEvent|IssuesEvent|PullRequestEvent>
     def getEventsUsersAndRepos(self, username: str, reponame: str, event: str) -> int:
         if not self.__4Events4PerP.get(username,0):
             return 0
@@ -128,7 +135,8 @@ class Run:
             else:
                 raise RuntimeError('error: argument -e is required')
         return res
-
+printf(res)
 
 if __name__ == '__main__':
     a = Run()
+    
