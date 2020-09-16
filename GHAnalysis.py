@@ -1,4 +1,4 @@
-import json
+ import json
 import os
 import argparse
 
@@ -48,11 +48,14 @@ class Data:
             self.__4Events4PerPPerR[i['actor__login']][i['repo__name']][i['type']
                                                           ] = self.__4Events4PerPPerR[i['actor__login']][i['repo__name']].get(i['type'], 0)+1
         with open('1.json', 'w', encoding='utf-8') as f:
-            json.dump(self.__4Events4PerP,f)
+            for line in f:
+               json.dump(self.__4Events4PerP,f)
         with open('2.json', 'w', encoding='utf-8') as f:
-            json.dump(self.__4Events4PerR,f)
+            for line in f:
+                json.dump(self.__4Events4PerR,f)
         with open('3.json', 'w', encoding='utf-8') as f:
-            json.dump(self.__4Events4PerPPerR,f)
+            for line in f:
+                json.dump(self.__4Events4PerPPerR,f)
 
     def __parseDict(self, d: dict, prefix: str):
         _d = {}
@@ -115,14 +118,16 @@ class Run:
             if self.parser.parse_args().event:
                 if self.parser.parse_args().user:
                     if self.parser.parse_args().repo:
-                        res = self.data.getEventsUsersAndRepos(
-                            self.parser.parse_args().user, self.parser.parse_args().repo, self.parser.parse_args().event)
+                        res = self.data.getEventsUsersAndRepos(self.parser.parse_args().user, self.parser.parse_args().repo, self.parser.parse_args().event)
+
                     else:
                         res = self.data.getEventsUsers(
                             self.parser.parse_args().user, self.parser.parse_args().event)
+
                 elif self.parser.parse_args().repo:
                     res = self.data.getEventsRepos(
                         self.parser.parse_args().reop, self.parser.parse_args().event)
+
                 else:
                     raise RuntimeError('error: argument -l or -c are required')
             else:
@@ -130,5 +135,4 @@ class Run:
         return res
 
 
-if __name__ == '__main__':
-    a = Run()
+
